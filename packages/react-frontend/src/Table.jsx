@@ -5,6 +5,7 @@ function TableHeader() {
   return (
     <thead>
       <tr>
+        <th>ID</th> {/* Added ID column */}
         <th>Name</th>
         <th>Job</th>
       </tr>
@@ -14,7 +15,8 @@ function TableHeader() {
 
 function TableBody(props) {
   const rows = props.characterData.map((row, index) => (
-    <tr key={index}>
+    <tr key={row.id}>
+      <td>{row.id}</td> {/* Display ID */}
       <td>{row.name}</td>
       <td>{row.job}</td>
       <td>
@@ -38,3 +40,4 @@ function Table(props) {
 }
 
 export default Table;
+

@@ -1,4 +1,3 @@
-// backend.js
 import express from "express";
 
 const app = express();
@@ -37,11 +36,18 @@ const users = {
 // Middleware to parse JSON
 app.use(express.json());
 
-// Function to find users by name
+// Helper functions
 const findUserByName = (name) => {
-  return users["users_list"].filter(
-    (user) => user["name"] === name
-  );
+  return users["users_list"].filter((user) => user["name"] === name);
+};
+
+const findUserById = (id) => {
+  return users["users_list"].find((user) => user["id"] === id);
+};
+
+const addUser = (user) => {
+  users["users_list"].push(user);
+  return user;
 };
 
 // Root route
@@ -61,7 +67,27 @@ app.get("/users", (req, res) => {
   }
 });
 
-// Start server
+// /users/:id route to retrieve a user by id
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+  let result = findUserById(id);
+
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(result);
+  }
+});
+
+// /users POST route to add a new user
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  addUser(userToAdd);
+  res.status(200).send();
+});
+
+// Start the server
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+

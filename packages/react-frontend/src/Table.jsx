@@ -1,11 +1,10 @@
-// src/Table.jsx
 import React from "react";
 
 function TableHeader() {
   return (
     <thead>
       <tr>
-        <th>ID</th> {/* Added ID column */}
+        <th>ID</th> 
         <th>Name</th>
         <th>Job</th>
       </tr>
@@ -16,7 +15,7 @@ function TableHeader() {
 function TableBody(props) {
   const rows = props.characterData.map((row, index) => (
     <tr key={row.id}>
-      <td>{row.id}</td> {/* Display ID */}
+      <td>{row.id}</td> 
       <td>{row.name}</td>
       <td>{row.job}</td>
       <td>

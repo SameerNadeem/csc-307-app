@@ -36,17 +36,16 @@ const users = {
 };
 app.use(express.json());
 
-// Middleware to parse JSON
-app.use(express.json());
 
-// Helper functions
+
+// Helper funcs
 const findUserByName = (name) => {
-  return users["users_list"].filter((user) => user["name"] === name);
+  return users["users_list"].filter((user) =>user["name"]=== name);
 };
 
 const findUsersByNameAndJob = (name, job) => {
   return users["users_list"].filter(
-    (user) => user["name"] === name && user["job"] === job
+    (user) => user["name"]=== name && user["job"] === job
   );
 };
 
@@ -65,12 +64,12 @@ const deleteUserById = (id) => {
   return users["users_list"].length < initialLength;
 };
 
-// Root route
+// Root
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! 307 @calpoly");
 });
 
-// /users GET route with optional query parameters 'name' and 'job'
+// /users GET route with name and job
 app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
@@ -78,17 +77,14 @@ app.get("/users", (req, res) => {
   if (name !== undefined && job !== undefined) {
     let result = findUsersByNameAndJob(name, job);
     result = { users_list: result };
-    res.send(result);
-  } else if (name !== undefined) {
+    res.send(result);} else if (name !== undefined) {
     let result = findUserByName(name);
     result = { users_list: result };
     res.send(result);
-  } else {
-    res.send(users);
-  }
+  } else {vres.send(users);}
 });
 
-// /users/:id GET route to retrieve a user by id
+// /users/:id GET route to a user via id
 app.get("/users/:id", (req, res) => {
   const id = req.params.id;
   let result = findUserById(id);
@@ -100,18 +96,16 @@ app.get("/users/:id", (req, res) => {
   }
 });
 
-// /users POST route to add a new user
+
 // POST /users route to add a new user
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
   
-    // Generate a unique ID for the new user
+    // unique ID for the new user
     userToAdd.id = Math.random().toString(36).substring(2, 8);
   
     // Add the user to the users list
     users["users_list"].push(userToAdd);
-  
-    // Send the newly created user and status 201 (Created)
     res.status(201).send(userToAdd);
   });
 
@@ -119,15 +113,15 @@ app.delete("/users/:id", (req, res) => {
     const id = req.params.id;
     const initialLength = users["users_list"].length;
   
-    // Filter out the user with the matching id
+    // matching id
     users["users_list"] = users["users_list"].filter(user => user.id !== id);
   
-    // If no user was deleted (same length), return 404
+    // If no user was deleted then im returning a 404
     if (users["users_list"].length === initialLength) {
       return res.status(404).send("User not found");
     }
   
-    // Otherwise, return a 204 status (No Content) for a successful deletion
+    // if not return a 204 for a successful deletion
     res.status(204).send();
   });
 

@@ -24,7 +24,7 @@ function MyApp() {
   }, []); // Empty array ensures this only runs once when the component mounts
 
   function removeOneCharacter(index) {
-    const userId = characters[index].id; // Get the ID of the user to delete
+    const userId = characters[index]._id; // Get the ID of the user to delete
   
     // Make the DELETE request to the backend
     fetch(`http://localhost:8000/users/${userId}`, { method: 'DELETE' })
